@@ -6,6 +6,16 @@ import { SongsModule } from './songs/songs.module';
 @Module({
   imports: [SongsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  AppService,
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure (consumer: MiddlewareConsumer) {
+    consumer.apply(loggerMiddleware).forRoutes('songs';)
+  }
+}
